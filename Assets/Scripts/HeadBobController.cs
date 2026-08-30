@@ -16,6 +16,7 @@ public class HeadBobController : MonoBehaviour
 
     public float tiltSpeed;
 
+    public float freqMult;
     private void Awake()
     {
         _controller = GetComponent<CharacterController>();
@@ -25,8 +26,8 @@ public class HeadBobController : MonoBehaviour
     private Vector3 FootStepMotion()
     {
         Vector3 pos = Vector3.zero;
-        pos.y = Mathf.Sin(Time.time * frequency) * amplitude;
-        pos.x = Mathf.Cos(Time.time * frequency / 2) * amplitude * 2;
+        pos.y = Mathf.Sin(Time.time * frequency * freqMult) * amplitude;
+        pos.x = Mathf.Cos(Time.time * frequency * freqMult / 2) * amplitude / 4;
         return pos;
     }
     private void CheckMotion()
@@ -64,33 +65,55 @@ public class HeadBobController : MonoBehaviour
 
     void CamTilt(float tiltAmt)
     {
-        float targetTilt = 0f;
-        Vector3 localVelocity = transform.InverseTransformDirection(_controller.velocity);
+        Vector3 localVelocity =
+            transform.InverseTransformDirection(_controller.velocity);
+
+        // LEFT / RIGHT → Z tilt
+        float targetSideTilt = 0f;
+
         if (localVelocity.x > 0.1f)
-        {
-            targetTilt = -tiltAmt;
-        }
+            targetSideTilt = -tiltAmt;
         else if (localVelocity.x < -0.1f)
-        {
-            targetTilt = tiltAmt;
-        }
+            targetSideTilt = tiltAmt;
 
 
-        float currentTilt = _camera.localEulerAngles.z;
+        // FORWARD / BACKWARD → X tilt
+        float targetForwardTilt = 0f;
 
-        if (currentTilt > 180f)
-            currentTilt -= 360f;
+        if (localVelocity.z > 0.1f)
+            targetForwardTilt = tiltAmt * 2;
+        else if (localVelocity.z < -0.1f)
+            targetForwardTilt = -tiltAmt * 2;
 
-        float newTilt = Mathf.LerpAngle(
-            currentTilt,
-            targetTilt,
+
+        // Current rotation
+        Vector3 currentRotation = _camera.localEulerAngles;
+
+        float currentX = currentRotation.x;
+        float currentZ = currentRotation.z;
+
+        if (currentX > 180f) currentX -= 360f;
+        if (currentZ > 180f) currentZ -= 360f;
+
+
+        // Smooth both tilts
+        float newX = Mathf.LerpAngle(
+            currentX,
+            targetForwardTilt,
             tiltSpeed * Time.deltaTime
         );
 
+        float newZ = Mathf.LerpAngle(
+            currentZ,
+            targetSideTilt,
+            tiltSpeed * Time.deltaTime
+        );
+
+
         _camera.localEulerAngles = new Vector3(
-            _camera.localEulerAngles.x,
+            newX,
             0f,
-            newTilt
+            newZ
         );
     }
 }

@@ -1,5 +1,7 @@
+using Unity.Cinemachine;
 using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
@@ -17,13 +19,18 @@ public class PlayerMovement : MonoBehaviour
     float verticalVelocity;
 
     float verticalRotation;
-    
 
+    public float runMultipler;
+    float moveMultipler = 1;
+
+    public CinemachineCamera virtualCamera;
+
+    float baseCamFov;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         ch = GetComponent<CharacterController>();
-
+        baseCamFov = virtualCamera.Lens.FieldOfView;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         
@@ -36,12 +43,15 @@ public class PlayerMovement : MonoBehaviour
 
         //movement code:
         Vector3 moveDir = transform.forward * moveInput + transform.right * turnInput;
-        Vector3 move = moveDir.normalized * moveSpeed;
+        Vector3 move = moveDir.normalized * moveSpeed * moveMultipler;
         move.y = verticalForce();
         ch.Move(move * Time.deltaTime);
 
         //cameraLook
         MouseLook();
+
+        //run thingy
+        RunLogic();
 
     }
 
@@ -75,4 +85,23 @@ public class PlayerMovement : MonoBehaviour
         }
         return verticalVelocity;
     }
+    void RunLogic()
+    {
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            moveMultipler = runMultipler;
+            GetComponent<HeadBobController>().freqMult = moveMultipler;
+            if (virtualCamera.Lens.FieldOfView >= baseCamFov * 1.1f) virtualCamera.Lens.FieldOfView = baseCamFov * 1.1f;
+            else virtualCamera.Lens.FieldOfView += 100 * Time.deltaTime;
+
+        }
+        else
+        {
+            moveMultipler = 1;
+            GetComponent<HeadBobController>().freqMult = 1;
+            if (virtualCamera.Lens.FieldOfView <= baseCamFov) virtualCamera.Lens.FieldOfView = baseCamFov;
+            else virtualCamera.Lens.FieldOfView -= 100 * Time.deltaTime;
+        }
+    }
+
 }
