@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System.Linq;
 public class PickupScript : MonoBehaviour
 {
     public GameObject player;
@@ -9,14 +9,15 @@ public class PickupScript : MonoBehaviour
 
     public float throwForce = 500f;
     public float pickUpRange = 100f;
-    [SerializeField] private float smoothTime = 0.05f; 
-
     private GameObject heldObj;
     private Rigidbody heldObjRb;
     private int LayerNumber;
     public bool isClipping;
     private Vector3 velocity;
 
+    public Material outlineMat;
+    private MeshRenderer currentRenderer; 
+    private Material[] originalMaterials;
     void Start()
     {
         LayerNumber = LayerMask.NameToLayer("holdLayer");
@@ -24,12 +25,38 @@ public class PickupScript : MonoBehaviour
 
     void Update()
     {
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position,transform.forward,out hit,pickUpRange) && hit.collider.CompareTag("canPickUp"))
+        {
+            MeshRenderer newRenderer =
+                hit.collider.GetComponentInParent<MeshRenderer>();
+            if (newRenderer != currentRenderer)
+            {
+                RemoveOutline();
+
+                currentRenderer = newRenderer;
+
+                if (currentRenderer != null)
+                {
+                    originalMaterials = currentRenderer.sharedMaterials;
+
+                    currentRenderer.sharedMaterials =
+                        originalMaterials.Append(outlineMat).ToArray();
+                }
+            }
+        }
+        else
+        {
+            RemoveOutline();
+        }
+
+
         Debug.DrawRay(transform.position, transform.forward * pickUpRange, Color.red);
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (heldObj == null)
             {
-                RaycastHit hit;
 
                 if (Physics.Raycast(transform.position, transform.forward, out hit, pickUpRange))
                 {
@@ -51,12 +78,27 @@ public class PickupScript : MonoBehaviour
 
         if (heldObj != null)
         {
+            heldObj.transform.position = holdPos.position;
             MoveObject();
+
+        }
+
+    }
+
+    void RemoveOutline()
+    {
+        if (currentRenderer != null)
+        {
+            currentRenderer.sharedMaterials = originalMaterials;
+            currentRenderer = null;
+            originalMaterials = null;
         }
     }
 
+
     private void FixedUpdate()
     {
+
         if (heldObj != null)
         {
             isClipping = false;
@@ -74,6 +116,8 @@ public class PickupScript : MonoBehaviour
                 }
             }
         }
+
+
     }
 
     void PickUpObject(GameObject pickUpObj)
@@ -81,12 +125,11 @@ public class PickupScript : MonoBehaviour
         if (pickUpObj.GetComponent<Rigidbody>())
         {
             heldObj = pickUpObj;
+            heldObj.transform.rotation = Quaternion.Euler(0,0,0);
             heldObjRb = pickUpObj.GetComponent<Rigidbody>();
             heldObjRb.isKinematic = true;
-            heldObj.transform.parent = holdPos;
+            heldObjRb.transform.parent = player.transform;
             heldObj.layer = LayerNumber;
-          
-            velocity = Vector3.zero;
 
             Physics.IgnoreCollision(
                 heldObj.GetComponent<Collider>(),
@@ -111,7 +154,7 @@ public class PickupScript : MonoBehaviour
         heldObj.layer = 0;
         heldObjRb.isKinematic = false;
         heldObj.transform.parent = null;
-        if (isClipping)
+        if(isClipping)
         {
             heldObj.transform.position = player.transform.position;
         }
@@ -120,22 +163,17 @@ public class PickupScript : MonoBehaviour
 
     void MoveObject()
     {
-        // Smoothly damp local position towards (0,0,0) relative to holdPos parent
-        heldObj.transform.localPosition = Vector3.SmoothDamp(
-            heldObj.transform.localPosition,
-            Vector3.zero,
-            ref velocity,
-            smoothTime
-        );
+        heldObj.transform.rotation = Quaternion.Lerp(heldObj.transform.rotation, holdPos.rotation, 20 * Time.deltaTime);
+        //heldObj.transform.position = Vector3.Lerp(heldObj.transform.position,holdPos.position,20*Time.deltaTime);
+        //heldObj.transform.position = Vector3.SmoothDamp(
+        //    heldObj.transform.position,
+        //    holdPos.position,
+        //    ref velocity,
+        //    0.05f
+        //);
 
-        // Smoothly interpolate rotation to match parent orientation
-        heldObj.transform.localRotation = Quaternion.Slerp(
-            heldObj.transform.localRotation,
-            Quaternion.identity,
-            20f * Time.deltaTime
-        );
     }
-
+   
     void OnDrawGizmos()
     {
         if (heldObj != null)
