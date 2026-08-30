@@ -59,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
         verticalRotation = Mathf.Clamp(verticalRotation, -90f, 80f);
 
         transform.Rotate(mouseX * sens * Vector3.up);
-        camera.transform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
+        camera.transform.localRotation = Quaternion.Euler(verticalRotation, camera.transform.localRotation.y, camera.transform.localRotation.z);
 
         
     }

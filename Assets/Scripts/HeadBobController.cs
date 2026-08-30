@@ -14,6 +14,8 @@ public class HeadBobController : MonoBehaviour
     private Vector3 _startPos;
     private CharacterController _controller;
 
+    public float tiltSpeed;
+
     private void Awake()
     {
         _controller = GetComponent<CharacterController>();
@@ -43,7 +45,7 @@ public class HeadBobController : MonoBehaviour
     }
     private void PlayMotion(Vector3 motion)
     {
-        _camera.localPosition += motion;
+        _camera.position += transform.TransformDirection(motion);
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -56,6 +58,39 @@ public class HeadBobController : MonoBehaviour
     {
         if (!enabled) return;
         CheckMotion();
+        CamTilt(2);
 
+    }
+
+    void CamTilt(float tiltAmt)
+    {
+        float targetTilt = 0f;
+        Vector3 localVelocity = transform.InverseTransformDirection(_controller.velocity);
+        if (localVelocity.x > 0.1f)
+        {
+            targetTilt = -tiltAmt;
+        }
+        else if (localVelocity.x < -0.1f)
+        {
+            targetTilt = tiltAmt;
+        }
+
+
+        float currentTilt = _camera.localEulerAngles.z;
+
+        if (currentTilt > 180f)
+            currentTilt -= 360f;
+
+        float newTilt = Mathf.LerpAngle(
+            currentTilt,
+            targetTilt,
+            tiltSpeed * Time.deltaTime
+        );
+
+        _camera.localEulerAngles = new Vector3(
+            _camera.localEulerAngles.x,
+            0f,
+            newTilt
+        );
     }
 }
