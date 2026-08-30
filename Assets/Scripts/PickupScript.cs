@@ -9,9 +9,13 @@ public class PickupScript : MonoBehaviour
 
     public float throwForce = 500f;
     public float pickUpRange = 100f;
+    [SerializeField] private float smoothTime = 0.05f; 
+
     private GameObject heldObj;
     private Rigidbody heldObjRb;
     private int LayerNumber;
+    public bool isClipping;
+    private Vector3 velocity;
 
     void Start()
     {
@@ -20,7 +24,6 @@ public class PickupScript : MonoBehaviour
 
     void Update()
     {
-       
         Debug.DrawRay(transform.position, transform.forward * pickUpRange, Color.red);
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -38,16 +41,38 @@ public class PickupScript : MonoBehaviour
             }
             else
             {
-                StopClipping();
+                if (isClipping)
+                {
+                    heldObj.transform.position = player.transform.position;
+                }
                 DropObject();
-                StopClipping();
             }
         }
 
         if (heldObj != null)
         {
             MoveObject();
+        }
+    }
 
+    private void FixedUpdate()
+    {
+        if (heldObj != null)
+        {
+            isClipping = false;
+            Collider[] hits = Physics.OverlapSphere(
+                heldObj.transform.position,
+                0.5f
+            );
+
+            foreach (Collider hit in hits)
+            {
+                if (hit.CompareTag("Wall") || hit.CompareTag("Ground"))
+                {
+                    isClipping = true;
+                    break;
+                }
+            }
         }
     }
 
@@ -58,8 +83,10 @@ public class PickupScript : MonoBehaviour
             heldObj = pickUpObj;
             heldObjRb = pickUpObj.GetComponent<Rigidbody>();
             heldObjRb.isKinematic = true;
-            heldObjRb.transform.parent = holdPos.transform;
+            heldObj.transform.parent = holdPos;
             heldObj.layer = LayerNumber;
+          
+            velocity = Vector3.zero;
 
             Physics.IgnoreCollision(
                 heldObj.GetComponent<Collider>(),
@@ -71,6 +98,10 @@ public class PickupScript : MonoBehaviour
 
     void DropObject()
     {
+        if (isClipping)
+        {
+            heldObj.transform.position = player.transform.position;
+        }
         Physics.IgnoreCollision(
             heldObj.GetComponent<Collider>(),
             player.GetComponent<Collider>(),
@@ -80,44 +111,40 @@ public class PickupScript : MonoBehaviour
         heldObj.layer = 0;
         heldObjRb.isKinematic = false;
         heldObj.transform.parent = null;
-        Collider[] hits = Physics.OverlapSphere(heldObj.transform.position, 0.01f);
-
-        foreach (Collider hit in hits)
+        if (isClipping)
         {
-            if (hit.CompareTag("Wall") || hit.CompareTag("Ground"))
-            {
-                heldObj.transform.position = player.transform.position;
-                break;
-            }
+            heldObj.transform.position = player.transform.position;
         }
         heldObj = null;
     }
 
     void MoveObject()
     {
-        heldObj.transform.position = Vector3.Lerp(heldObj.transform.position, holdPos.transform.position, 20*Time.deltaTime);
-        
+        // Smoothly damp local position towards (0,0,0) relative to holdPos parent
+        heldObj.transform.localPosition = Vector3.SmoothDamp(
+            heldObj.transform.localPosition,
+            Vector3.zero,
+            ref velocity,
+            smoothTime
+        );
+
+        // Smoothly interpolate rotation to match parent orientation
+        heldObj.transform.localRotation = Quaternion.Slerp(
+            heldObj.transform.localRotation,
+            Quaternion.identity,
+            20f * Time.deltaTime
+        );
     }
-    void StopClipping()
+
+    void OnDrawGizmos()
     {
-        var clipRange = Vector3.Distance(
-            heldObj.transform.position,
-            transform.position
-        );
-
-        RaycastHit[] hits;
-
-        hits = Physics.RaycastAll(
-            transform.position,
-            transform.TransformDirection(Vector3.forward),
-            clipRange
-        );
-
-        if (hits.Length > 1)
+        if (heldObj != null)
         {
-            heldObj.transform.position =
-                transform.position + new Vector3(0f, -0.5f, 0f);
+            Gizmos.color = isClipping ? Color.red : Color.green;
+            Gizmos.DrawWireSphere(
+                heldObj.transform.position,
+                0.5f
+            );
         }
     }
-
 }
