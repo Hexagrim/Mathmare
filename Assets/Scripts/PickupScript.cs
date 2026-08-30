@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Unity.VisualScripting;
+
 public class PickupScript : MonoBehaviour
 {
     public GameObject player;
@@ -17,10 +18,11 @@ public class PickupScript : MonoBehaviour
     private Vector3 velocity;
 
     public Material[] outlineMats;
-    private MeshRenderer currentRenderer; 
+    private MeshRenderer currentRenderer;
     private Material[] originalMaterials;
 
     public Transform parentHand;
+
     void Start()
     {
         LayerNumber = LayerMask.NameToLayer("holdLayer");
@@ -30,13 +32,11 @@ public class PickupScript : MonoBehaviour
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(transform.position,transform.forward,out hit,pickUpRange) && hit.collider.CompareTag("canPickUp"))
+        if (Physics.Raycast(transform.position, transform.forward, out hit, pickUpRange) && hit.collider.CompareTag("canPickUp"))
         {
-            MeshRenderer newRenderer =
-                hit.collider.GetComponentInParent<MeshRenderer>();
+            MeshRenderer newRenderer = hit.collider.GetComponentInParent<MeshRenderer>();
             if (newRenderer != currentRenderer)
             {
-
                 RemoveOutline();
 
                 currentRenderer = newRenderer;
@@ -44,9 +44,11 @@ public class PickupScript : MonoBehaviour
                 if (currentRenderer != null)
                 {
                     originalMaterials = currentRenderer.sharedMaterials;
-                    currentRenderer.GetComponent<Outline>().OutlineWidth = 5;
+                    if (currentRenderer.GetComponent<Outline>())
+                    {
+                        currentRenderer.GetComponent<Outline>().OutlineWidth = 5;
+                    }
                     currentRenderer.sharedMaterials = originalMaterials.Concat(outlineMats).ToArray();
-
                 }
             }
         }
@@ -55,16 +57,14 @@ public class PickupScript : MonoBehaviour
             RemoveOutline();
         }
 
-
         Debug.DrawRay(transform.position, transform.forward * pickUpRange, Color.red);
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (heldObj == null)
             {
-
                 if (Physics.Raycast(transform.position, transform.forward, out hit, pickUpRange))
                 {
-                    if (hit.transform.gameObject.tag == "canPickUp")
+                    if (hit.transform.gameObject.CompareTag("canPickUp"))
                     {
                         PickUpObject(hit.transform.gameObject);
                     }
@@ -84,11 +84,8 @@ public class PickupScript : MonoBehaviour
         {
             heldObj.transform.position = holdPos.position;
             MoveObject();
-
         }
-
     }
-
 
     void RemoveOutline()
     {
@@ -97,19 +94,15 @@ public class PickupScript : MonoBehaviour
             if (currentRenderer.GetComponent<Outline>())
             {
                 currentRenderer.GetComponent<Outline>().OutlineWidth = 0;
-
             }
             currentRenderer.sharedMaterials = originalMaterials;
             currentRenderer = null;
             originalMaterials = null;
-
         }
     }
 
-
     private void FixedUpdate()
     {
-
         if (heldObj != null)
         {
             isClipping = false;
@@ -127,71 +120,89 @@ public class PickupScript : MonoBehaviour
                 }
             }
         }
+    }
 
-
+    /// <summary>
+    /// Traverse up the hierarchy until reaching the top-most root transform.
+    /// </summary>
+    private Transform GetRootTransform(Transform current)
+    {
+        while (current.parent != null)
+        {
+            current = current.parent;
+        }
+        return current;
     }
 
     void PickUpObject(GameObject pickUpObj)
     {
-        if (pickUpObj.GetComponent<Rigidbody>())
+
+        Transform rootTransform = GetRootTransform(pickUpObj.transform);
+        heldObj = rootTransform.gameObject;
+        heldObj.transform.localPosition = Vector3.zero;
+        heldObj.transform.localRotation = Quaternion.identity;
+        //heldObj.transform.localRotation = Quaternion.identity;
+        heldObjRb = heldObj.GetComponentInChildren<Rigidbody>();
+        if (heldObjRb != null)
         {
-            heldObj = pickUpObj;
-            heldObj.transform.rotation = Quaternion.Euler(0,0,0);
-            heldObjRb = pickUpObj.GetComponent<Rigidbody>();
             heldObjRb.isKinematic = true;
 
             Vector3 localScale = heldObj.transform.localScale;
-            heldObjRb.transform.parent = parentHand;
+            heldObj.transform.parent = parentHand;
             heldObj.transform.localScale = localScale;
 
             heldObj.layer = LayerNumber;
-
-            Physics.IgnoreCollision(
-                heldObj.GetComponent<Collider>(),
-                player.GetComponent<Collider>(),
-                true
-            );
+            Collider[] objColliders = heldObj.GetComponentsInChildren<Collider>();
+            Collider playerCollider = player.GetComponent<Collider>();
+            foreach (Collider col in objColliders)
+            {
+                Physics.IgnoreCollision(col, playerCollider, true);
+            }
         }
     }
-
     void DropObject()
     {
+        if (heldObj == null) return;
+
         if (isClipping)
         {
             heldObj.transform.position = player.transform.position;
         }
-        Physics.IgnoreCollision(
-            heldObj.GetComponent<Collider>(),
-            player.GetComponent<Collider>(),
-            false
-        );
+
+        // Re-enable collisions for all colliders under the root object
+        Collider[] objColliders = heldObj.GetComponentsInChildren<Collider>();
+        Collider playerCollider = player.GetComponent<Collider>();
+        foreach (Collider col in objColliders)
+        {
+            Physics.IgnoreCollision(col, playerCollider, false);
+        }
 
         heldObj.layer = 0;
-        heldObjRb.isKinematic = false;
         Vector3 localScale = heldObj.transform.localScale;
-        heldObjRb.transform.parent = null;
+        // Unparent the root node (sets parent to null)
+        heldObj.transform.parent = null;
         heldObj.transform.localScale = localScale;
-        if(isClipping)
+
+        if (isClipping)
         {
             heldObj.transform.position = player.transform.position;
         }
-        heldObjRb.AddForce(transform.forward.normalized * 500);
+
+        if (heldObjRb != null)
+        {
+            heldObjRb.isKinematic = false;
+            heldObjRb.AddForce(transform.forward.normalized * throwForce);
+        }
+
         heldObj = null;
+        heldObjRb = null;
     }
 
     void MoveObject()
     {
         heldObj.transform.rotation = Quaternion.Lerp(heldObj.transform.rotation, holdPos.rotation, 20 * Time.deltaTime);
-        //heldObj.transform.position = Vector3.Lerp(heldObj.transform.position,holdPos.position,20*Time.deltaTime);
-        //heldObj.transform.position = Vector3.SmoothDamp(
-        //    heldObj.transform.position,
-        //    holdPos.position,
-        //    ref velocity,
-        //    0.05f
-        //);
-
     }
-   
+
     void OnDrawGizmos()
     {
         if (heldObj != null)
