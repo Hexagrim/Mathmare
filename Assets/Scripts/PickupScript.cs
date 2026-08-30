@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Unity.VisualScripting;
 public class PickupScript : MonoBehaviour
 {
     public GameObject player;
@@ -15,9 +16,11 @@ public class PickupScript : MonoBehaviour
     public bool isClipping;
     private Vector3 velocity;
 
-    public Material outlineMat;
+    public Material[] outlineMats;
     private MeshRenderer currentRenderer; 
     private Material[] originalMaterials;
+
+    public Transform parentHand;
     void Start()
     {
         LayerNumber = LayerMask.NameToLayer("holdLayer");
@@ -33,6 +36,7 @@ public class PickupScript : MonoBehaviour
                 hit.collider.GetComponentInParent<MeshRenderer>();
             if (newRenderer != currentRenderer)
             {
+
                 RemoveOutline();
 
                 currentRenderer = newRenderer;
@@ -40,9 +44,9 @@ public class PickupScript : MonoBehaviour
                 if (currentRenderer != null)
                 {
                     originalMaterials = currentRenderer.sharedMaterials;
+                    currentRenderer.GetComponent<Outline>().OutlineWidth = 5;
+                    currentRenderer.sharedMaterials = originalMaterials.Concat(outlineMats).ToArray();
 
-                    currentRenderer.sharedMaterials =
-                        originalMaterials.Append(outlineMat).ToArray();
                 }
             }
         }
@@ -85,13 +89,20 @@ public class PickupScript : MonoBehaviour
 
     }
 
+
     void RemoveOutline()
     {
         if (currentRenderer != null)
         {
+            if (currentRenderer.GetComponent<Outline>())
+            {
+                currentRenderer.GetComponent<Outline>().OutlineWidth = 0;
+
+            }
             currentRenderer.sharedMaterials = originalMaterials;
             currentRenderer = null;
             originalMaterials = null;
+
         }
     }
 
@@ -128,7 +139,11 @@ public class PickupScript : MonoBehaviour
             heldObj.transform.rotation = Quaternion.Euler(0,0,0);
             heldObjRb = pickUpObj.GetComponent<Rigidbody>();
             heldObjRb.isKinematic = true;
-            heldObjRb.transform.parent = player.transform;
+
+            Vector3 localScale = heldObj.transform.localScale;
+            heldObjRb.transform.parent = parentHand;
+            heldObj.transform.localScale = localScale;
+
             heldObj.layer = LayerNumber;
 
             Physics.IgnoreCollision(
@@ -153,11 +168,14 @@ public class PickupScript : MonoBehaviour
 
         heldObj.layer = 0;
         heldObjRb.isKinematic = false;
-        heldObj.transform.parent = null;
+        Vector3 localScale = heldObj.transform.localScale;
+        heldObjRb.transform.parent = null;
+        heldObj.transform.localScale = localScale;
         if(isClipping)
         {
             heldObj.transform.position = player.transform.position;
         }
+        heldObjRb.AddForce(transform.forward.normalized * 500);
         heldObj = null;
     }
 
