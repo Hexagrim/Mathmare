@@ -11,7 +11,14 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 10;
     public float sens;
 
-    public Camera camera;
+    public GameObject camera;
+
+    public float gravity;
+    float verticalVelocity;
+
+    float verticalRotation;
+    
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -19,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
+        
     }
 
     // Update is called once per frame
@@ -29,10 +36,13 @@ public class PlayerMovement : MonoBehaviour
 
         //movement code:
         Vector3 moveDir = transform.forward * moveInput + transform.right * turnInput;
-        ch.Move(moveDir.normalized*moveSpeed*Time.deltaTime);
+        Vector3 move = moveDir.normalized * moveSpeed;
+        move.y = verticalForce();
+        ch.Move(move * Time.deltaTime);
 
         //cameraLook
         MouseLook();
+
     }
 
     void InputManagement()
@@ -45,7 +55,24 @@ public class PlayerMovement : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
+        verticalRotation -= mouseY;
+        verticalRotation = Mathf.Clamp(verticalRotation, -90f, 80f);
+
         transform.Rotate(mouseX * sens * Vector3.up);
-        camera.transform.Rotate(mouseY * sens * Vector3.left);
+        camera.transform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
+
+        
+    }
+    float verticalForce()
+    {
+        if(ch.isGrounded)
+        {
+            verticalVelocity = -1f;
+        }
+        else
+        {
+            verticalVelocity -= gravity * Time.deltaTime;
+        }
+        return verticalVelocity;
     }
 }
