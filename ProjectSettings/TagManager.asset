@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - canPickUp
+  - ground
+  - Wall
+  - Ground
   layers:
   - Default
   - TransparentFX
@@ -11,7 +15,7 @@ TagManager:
   - Player
   - Water
   - UI
-  - 
+  - holdLayer
   - 
   - 
   - 
