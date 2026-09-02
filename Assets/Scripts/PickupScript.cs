@@ -24,6 +24,8 @@ public class PickupScript : MonoBehaviour
     public Transform parentHand;
 
     public GameObject heldObjRoot;
+    
+
 
     void Start()
     {
@@ -210,6 +212,7 @@ public class PickupScript : MonoBehaviour
     void MoveObject()
     {
         heldObj.transform.rotation = Quaternion.Lerp(heldObj.transform.rotation, holdPos.rotation, 20 * Time.deltaTime);
+
     }
 
     void OnDrawGizmos()

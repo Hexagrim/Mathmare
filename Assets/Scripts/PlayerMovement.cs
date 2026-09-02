@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     public CinemachineCamera virtualCamera;
 
     float baseCamFov;
+    bool isRunning = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -87,12 +88,15 @@ public class PlayerMovement : MonoBehaviour
     }
     void RunLogic()
     {
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift)) isRunning = true;
+        if (Input.GetKeyUp(KeyCode.LeftShift)) isRunning = false;
+
+        if (isRunning)
         {
             moveMultipler = runMultipler;
             GetComponent<HeadBobController>().freqMult = moveMultipler;
             if (virtualCamera.Lens.FieldOfView >= baseCamFov * 1.1f) virtualCamera.Lens.FieldOfView = baseCamFov * 1.1f;
-            else virtualCamera.Lens.FieldOfView += 100 * Time.deltaTime;
+            else virtualCamera.Lens.FieldOfView += 70 * Time.deltaTime;
 
         }
         else
@@ -100,7 +104,7 @@ public class PlayerMovement : MonoBehaviour
             moveMultipler = 1;
             GetComponent<HeadBobController>().freqMult = 1;
             if (virtualCamera.Lens.FieldOfView <= baseCamFov) virtualCamera.Lens.FieldOfView = baseCamFov;
-            else virtualCamera.Lens.FieldOfView -= 100 * Time.deltaTime;
+            else virtualCamera.Lens.FieldOfView -= 70 * Time.deltaTime;
         }
     }
 
