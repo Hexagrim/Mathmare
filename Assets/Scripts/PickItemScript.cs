@@ -9,14 +9,24 @@ public class PickItemScript : MonoBehaviour
     public float angleSpeed;
 
     bool lookingAtItem;
+    GameObject lookItem;
     void Update()
     {
         //ray check
         Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, 10f) && hit.collider.gameObject.GetComponent<Item>() != null)
-            lookingAtItem = true;
+        if (Physics.Raycast(ray, out RaycastHit hit, 30f) && hit.collider.gameObject.GetComponent<Item>() != null)
+        {
 
+            lookingAtItem = true;
+            lookItem = hit.collider.gameObject;
+
+        }
+
+        else
+        {
+            lookingAtItem = false;
+        }
 
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -24,7 +34,7 @@ public class PickItemScript : MonoBehaviour
             {
                 if (lookingAtItem)
                 {
-                    PickItem(hit.collider.gameObject.GetComponent<Item>());
+                    PickItem(lookItem.GetComponent<Item>());
                 }
             }
 
@@ -35,16 +45,24 @@ public class PickItemScript : MonoBehaviour
 
         }
 
-        if (heldItem != null) MoveItem();
+        //if (heldItem != null && heldItemHand != null)
+        //{
+        //    MoveItem();
+        //    heldItem.transform.position = heldItemHand.transform.position;
+        //}
 
 
         // code for outline
-
-        if (lookingAtItem)
+        if (lookItem != null)
         {
-
-            hit.collider.GetComponent<Outline>().enabled = true;
-
+            if (lookingAtItem)
+            {
+                if (!lookItem.GetComponent<Outline>().enabled) lookItem.GetComponent<Outline>().enabled = true;
+            }
+            else if (lookItem.GetComponent<Outline>().enabled)
+            {
+                lookItem.GetComponent<Outline>().enabled = false;
+            }
         }
 
 
@@ -55,17 +73,29 @@ public class PickItemScript : MonoBehaviour
         heldItem = pickItem;
         heldItem.PickUp();
         heldItemHand = hands[heldItem.itemId];
+        heldItem.gameObject.layer = LayerMask.NameToLayer("holdLayer");
         //heldItem.transform.parent = hands[heldItem.itemId];
     }
 
     void DropItem()
     {
-
+        heldItem.Drop();
+        heldItemHand = null;
+        heldItem.gameObject.layer = default;
+        heldItem = null;
     }
 
     void MoveItem()
     {
         heldItem.transform.rotation = Quaternion.Lerp(heldItem.transform.rotation, heldItemHand.rotation, angleSpeed * Time.deltaTime);
-    }
 
+    }
+    private void LateUpdate()
+    {
+        if (heldItem != null && heldItemHand != null)
+        {
+            MoveItem();
+            heldItem.transform.position = heldItemHand.transform.position;
+        }
+    }
 }
