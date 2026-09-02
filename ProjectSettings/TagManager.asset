@@ -8,6 +8,9 @@ TagManager:
   - ground
   - Wall
   - Ground
+  - torch
+  - book
+  - holdModel
   layers:
   - Default
   - TransparentFX

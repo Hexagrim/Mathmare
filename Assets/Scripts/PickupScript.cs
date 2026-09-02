@@ -23,6 +23,8 @@ public class PickupScript : MonoBehaviour
 
     public Transform parentHand;
 
+    public GameObject heldObjRoot;
+
     void Start()
     {
         LayerNumber = LayerMask.NameToLayer("holdLayer");
@@ -82,7 +84,7 @@ public class PickupScript : MonoBehaviour
 
         if (heldObj != null)
         {
-            heldObj.transform.position = holdPos.position;
+            heldObjRoot.transform.position = holdPos.position;
             MoveObject();
         }
     }
@@ -136,9 +138,9 @@ public class PickupScript : MonoBehaviour
 
     void PickUpObject(GameObject pickUpObj)
     {
-
+        heldObj = pickUpObj;
         Transform rootTransform = GetRootTransform(pickUpObj.transform);
-        heldObj = rootTransform.gameObject;
+        heldObjRoot = rootTransform.gameObject;
         heldObj.transform.localPosition = Vector3.zero;
         heldObj.transform.localRotation = Quaternion.identity;
         //heldObj.transform.localRotation = Quaternion.identity;
@@ -147,9 +149,15 @@ public class PickupScript : MonoBehaviour
         {
             heldObjRb.isKinematic = true;
 
-            Vector3 localScale = heldObj.transform.localScale;
-            heldObj.transform.parent = parentHand;
-            heldObj.transform.localScale = localScale;
+            Vector3 localScale = heldObjRoot.transform.localScale;
+            heldObjRoot.transform.parent = parentHand;
+
+
+            heldObjRoot.transform.localPosition = Vector3.zero;
+            heldObjRoot.transform.localRotation = Quaternion.identity;
+
+
+            heldObjRoot.transform.localScale = localScale;
 
             heldObj.layer = LayerNumber;
             Collider[] objColliders = heldObj.GetComponentsInChildren<Collider>();
@@ -158,6 +166,7 @@ public class PickupScript : MonoBehaviour
             {
                 Physics.IgnoreCollision(col, playerCollider, true);
             }
+            heldObjRoot.transform.localRotation = Quaternion.identity; 
         }
     }
     void DropObject()
@@ -166,7 +175,7 @@ public class PickupScript : MonoBehaviour
 
         if (isClipping)
         {
-            heldObj.transform.position = player.transform.position;
+            heldObjRoot.transform.position = player.transform.position;
         }
 
         // Re-enable collisions for all colliders under the root object
@@ -178,10 +187,10 @@ public class PickupScript : MonoBehaviour
         }
 
         heldObj.layer = 0;
-        Vector3 localScale = heldObj.transform.localScale;
+        Vector3 localScale = heldObjRoot.transform.localScale;
         // Unparent the root node (sets parent to null)
-        heldObj.transform.parent = null;
-        heldObj.transform.localScale = localScale;
+        heldObjRoot.transform.parent = null;
+        heldObjRoot.transform.localScale = localScale;
 
         if (isClipping)
         {
