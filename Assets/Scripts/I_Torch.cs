@@ -1,10 +1,18 @@
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class I_Torch : Item
 {
+    public GameObject lightSource;
     
     public override void Use()
     {
-        throw new System.NotImplementedException();
+        lightSource.SetActive(!lightSource.activeInHierarchy);
+    }
+
+    public override void Drop() 
+    {
+        base.Drop();
+        lightSource.SetActive(false);
     }
 }

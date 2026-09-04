@@ -17,6 +17,7 @@ public class HeadBobController : MonoBehaviour
     public float tiltSpeed;
 
     public float freqMult;
+
     private void Awake()
     {
         _controller = GetComponent<CharacterController>();
@@ -68,7 +69,6 @@ public class HeadBobController : MonoBehaviour
         Vector3 localVelocity =
             transform.InverseTransformDirection(_controller.velocity);
 
-        // LEFT / RIGHT → Z tilt
         float targetSideTilt = 0f;
 
         if (localVelocity.x > 0.1f)
@@ -76,8 +76,6 @@ public class HeadBobController : MonoBehaviour
         else if (localVelocity.x < -0.1f)
             targetSideTilt = tiltAmt;
 
-
-        // FORWARD / BACKWARD → X tilt
         float targetForwardTilt = 0f;
 
         if (localVelocity.z > 0.1f)
@@ -85,8 +83,6 @@ public class HeadBobController : MonoBehaviour
         else if (localVelocity.z < -0.1f)
             targetForwardTilt = -tiltAmt * 2;
 
-
-        // Current rotation
         Vector3 currentRotation = _camera.localEulerAngles;
 
         float currentX = currentRotation.x;
@@ -95,8 +91,6 @@ public class HeadBobController : MonoBehaviour
         if (currentX > 180f) currentX -= 360f;
         if (currentZ > 180f) currentZ -= 360f;
 
-
-        // Smooth both tilts
         float newX = Mathf.LerpAngle(
             currentX,
             targetForwardTilt,

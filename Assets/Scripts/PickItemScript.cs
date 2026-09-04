@@ -10,12 +10,13 @@ public class PickItemScript : MonoBehaviour
 
     bool lookingAtItem;
     GameObject lookItem;
+    
     void Update()
     {
         //ray check
         Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, 30f) && hit.collider.gameObject.GetComponent<Item>() != null)
+        if (Physics.Raycast(ray, out RaycastHit hit, 7f) && hit.collider.gameObject.GetComponent<Item>() != null)
         {
 
             lookingAtItem = true;
@@ -64,12 +65,17 @@ public class PickItemScript : MonoBehaviour
                 lookItem.GetComponent<Outline>().enabled = false;
             }
         }
-
+        
+        if(heldItem!=null && Input.GetKeyDown(KeyCode.F))
+        {
+            heldItem.Use();
+        }
 
     }
 
     void PickItem(Item pickItem)
     {
+        pickItem.GetComponent<Outline>().enabled = false;
         heldItem = pickItem;
         heldItem.PickUp();
         heldItemHand = hands[heldItem.itemId];
@@ -82,7 +88,9 @@ public class PickItemScript : MonoBehaviour
         heldItem.Drop();
         heldItemHand = null;
         heldItem.gameObject.layer = default;
+        heldItem.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * 300);
         heldItem = null;
+
     }
 
     void MoveItem()
@@ -95,7 +103,7 @@ public class PickItemScript : MonoBehaviour
         if (heldItem != null && heldItemHand != null)
         {
             MoveItem();
-            heldItem.transform.position = heldItemHand.transform.position;
+            heldItem.transform.position = Vector3.Lerp(heldItem.transform.position, heldItemHand.transform.position, 100 * Time.deltaTime);
         }
     }
 }

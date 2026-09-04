@@ -4,12 +4,12 @@ public abstract class Item : MonoBehaviour
 {
     public int itemId;
 
-    public void PickUp()
+    public virtual void PickUp()
     {
         GetComponent<Rigidbody>().isKinematic = true;
     }
     
-    public void Drop()
+    public virtual void Drop()
     {
         GetComponent<Rigidbody>().isKinematic = false;
     }

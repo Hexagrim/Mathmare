@@ -27,6 +27,8 @@ public class PlayerMovement : MonoBehaviour
 
     float baseCamFov;
     bool isRunning = false;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
