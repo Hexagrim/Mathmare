@@ -16,14 +16,13 @@ public class PickItemScript : MonoBehaviour
         //ray check
         Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, 7f) && hit.collider.gameObject.GetComponent<Item>() != null)
+        if (Physics.Raycast(ray, out RaycastHit hit, 3f) && hit.collider.gameObject.GetComponent<Item>() != null)
         {
-
+            if(lookItem != null) lookItem.GetComponent<Outline>().enabled = false;
             lookingAtItem = true;
             lookItem = hit.collider.gameObject;
 
         }
-
         else
         {
             lookingAtItem = false;
@@ -38,7 +37,6 @@ public class PickItemScript : MonoBehaviour
                     PickItem(lookItem.GetComponent<Item>());
                 }
             }
-
             else
             {
                 DropItem();
@@ -56,7 +54,7 @@ public class PickItemScript : MonoBehaviour
         // code for outline
         if (lookItem != null)
         {
-            if (lookingAtItem)
+            if (lookingAtItem && lookItem!=heldItem)
             {
                 if (!lookItem.GetComponent<Outline>().enabled) lookItem.GetComponent<Outline>().enabled = true;
             }
@@ -66,7 +64,7 @@ public class PickItemScript : MonoBehaviour
             }
         }
         
-        if(heldItem!=null && Input.GetKeyDown(KeyCode.F))
+        if(heldItem!=null && Input.GetKeyDown(KeyCode.Mouse0))
         {
             heldItem.Use();
         }
@@ -90,7 +88,6 @@ public class PickItemScript : MonoBehaviour
         heldItem.gameObject.layer = default;
         heldItem.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * 300);
         heldItem = null;
-
     }
 
     void MoveItem()
