@@ -330,7 +330,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 188925431}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1918,7 +1918,7 @@ Transform:
   m_GameObject: {fileID: 1357854084}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.018246563, z: -0, w: 0.9998335}
-  m_LocalPosition: {x: 0.324, y: -0.333, z: 0.546}
+  m_LocalPosition: {x: 0.32399988, y: -0.33299994, z: 0.5459995}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1949,7 +1949,7 @@ Transform:
   m_GameObject: {fileID: 1583094146}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.2300664, z: -0, w: 0.9731749}
-  m_LocalPosition: {x: 0.543, y: -0.666, z: 1.033}
+  m_LocalPosition: {x: 0.5430002, y: -0.666, z: 1.033001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11029,6 +11029,7 @@ GameObject:
   - component: {fileID: 7747377490308783077}
   - component: {fileID: 7747377490308783080}
   - component: {fileID: 7747377490308783081}
+  - component: {fileID: 7747377490308783082}
   m_Layer: 0
   m_Name: Torch
   m_TagString: canPickUp
@@ -11109,8 +11110,8 @@ Rigidbody:
   m_GameObject: {fileID: 6847748382739742543}
   serializedVersion: 5
   m_Mass: 2
-  m_LinearDamping: 1
-  m_AngularDamping: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -11126,7 +11127,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 2
+  m_CollisionDetection: 0
 --- !u!114 &7747377490308783078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11182,6 +11183,20 @@ CapsuleCollider:
   m_Height: 9.221604
   m_Direction: 2
   m_Center: {x: -0.0000000028653897, y: -0.030445257, z: -1.0133926}
+--- !u!114 &7747377490308783082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6847748382739742543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e69719a65355f4147a1f0ee2ee1e25fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemSway
+  smooth: 10
+  multiplier: -10
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

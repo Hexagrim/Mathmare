@@ -77,6 +77,9 @@ public class PickItemScript : MonoBehaviour
         heldItem = pickItem;
         heldItem.PickUp();
         heldItemHand = hands[heldItem.itemId];
+        heldItem.transform.parent = heldItemHand;
+        heldItem.transform.position = heldItemHand.position;
+        heldItem.transform.rotation = heldItemHand.rotation;
         heldItem.gameObject.layer = LayerMask.NameToLayer("holdLayer");
         //heldItem.transform.parent = hands[heldItem.itemId];
     }
@@ -84,23 +87,25 @@ public class PickItemScript : MonoBehaviour
     void DropItem()
     {
         heldItem.Drop();
+        heldItem.transform.parent = null;
         heldItemHand = null;
         heldItem.gameObject.layer = default;
         heldItem.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * 300);
+
         heldItem = null;
     }
 
     void MoveItem()
     {
-        heldItem.transform.rotation = Quaternion.Lerp(heldItem.transform.rotation, heldItemHand.rotation, angleSpeed * Time.deltaTime);
+        heldItem.transform.rotation = Quaternion.Slerp(heldItem.transform.rotation, heldItemHand.rotation, angleSpeed * Time.deltaTime);
 
     }
-    private void LateUpdate()
-    {
-        if (heldItem != null && heldItemHand != null)
-        {
-            MoveItem();
-            heldItem.transform.position = Vector3.Lerp(heldItem.transform.position, heldItemHand.transform.position, 100 * Time.deltaTime);
-        }
-    }
+    //private void LateUpdate()
+    //{
+    //    if (heldItem != null && heldItemHand != null)
+    //    {
+    //        MoveItem();
+    //        heldItem.transform.position = Vector3.Lerp(heldItem.transform.position, heldItemHand.transform.position, 100 * Time.deltaTime);
+    //    }
+    //}
 }
