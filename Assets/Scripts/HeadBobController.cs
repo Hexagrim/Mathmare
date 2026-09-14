@@ -60,7 +60,7 @@ public class HeadBobController : MonoBehaviour
     {
         if (!enabled) return;
         CheckMotion();
-        CamTilt(2);
+        CamTilt(1);
 
     }
 

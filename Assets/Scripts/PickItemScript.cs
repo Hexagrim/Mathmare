@@ -90,7 +90,7 @@ public class PickItemScript : MonoBehaviour
         heldItem.transform.parent = null;
         heldItemHand = null;
         heldItem.gameObject.layer = default;
-        heldItem.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * 300);
+        heldItem.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * 400);
 
         heldItem = null;
     }

@@ -1,17 +1,21 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody), typeof(Outline))]
 public abstract class Item : MonoBehaviour
 {
+    
     public int itemId;
 
     public virtual void PickUp()
     {
         GetComponent<Rigidbody>().isKinematic = true;
+        //GetComponent<ItemSway>().enabled = true;
     }
     
     public virtual void Drop()
     {
         GetComponent<Rigidbody>().isKinematic = false;
+        //GetComponent<ItemSway>().enabled = false;
     }
 
     protected virtual void Update()
@@ -21,6 +25,7 @@ public abstract class Item : MonoBehaviour
     protected virtual void Start()
     {
         //same here
+        
         Debug.Log(name + ":" + itemId);
 
     }
