@@ -1,16 +1,16 @@
 using UnityEngine;
 
-public class QPaper : MonoBehaviour
+public class QPaper :Interactables
 {
-    public bool lookingAt;
-    void Start()
+    public GameObject Outline;
+    public override void Look()
     {
-        
+        base.Look();
+        Outline.SetActive(true);
     }
-
-    // Update is called once per frame
-    void Update()
+    public override void StopLooking()
     {
-        
+        base.StopLooking();
+        Outline.SetActive(false);
     }
 }

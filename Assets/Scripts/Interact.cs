@@ -1,40 +1,54 @@
-using Unity.VisualScripting;
 using UnityEngine;
+
+
 
 public class Interact : MonoBehaviour
 {
     float interactDistance = 3;
 
-    private GameObject currentLookedAtObject;
-    private 
-    void Start()
-    {
+    private Interactables lookObj;
+    public bool lookingAtObj;
 
-    }
-
-    // Update is called once per frame
     void Update()
     {
+        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
 
-        RaycastHit hit;
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, interactDistance))
+        if (Physics.Raycast(ray, out RaycastHit hit, interactDistance))
         {
-            if (hit.collider.GetComponent<QPaper>())
+            Interactables interactable = hit.collider.GetComponent<Interactables>();
+
+            if (interactable != null)
             {
-                if (currentLookedAtObject.GetComponent<QPaper>().lookingAt) currentLookedAtObject.GetComponent<QPaper>().lookingAt = false;
-                currentLookedAtObject = hit.collider.gameObject;
+                if (lookObj != interactable)
+                {
+                    if (lookObj != null)
+                        lookObj.StopLooking();
+
+                    lookObj = interactable;
+                    lookingAtObj = true;
+                    lookObj.Look();
+                }
             }
             else
             {
-                
-                currentLookedAtObject = null;
+                StopLooking();
             }
         }
-        
-        if(currentLookedAtObject != null && currentLookedAtObject.GetComponent<QPaper>())
+        else
         {
-            currentLookedAtObject.GetComponent<QPaper>
+            StopLooking();
+        }
+    }
+
+    //using a better seperated structure for this cause its so messy with the old method;;;;
+    void StopLooking()
+    {
+        if (lookObj != null)
+        {
+            lookObj.StopLooking();
+            lookObj = null;
         }
 
+        lookingAtObj = false;
     }
-} 
+}

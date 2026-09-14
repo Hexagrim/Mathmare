@@ -1327,6 +1327,7 @@ GameObject:
   - component: {fileID: 651984834}
   - component: {fileID: 651984835}
   - component: {fileID: 651984836}
+  - component: {fileID: 651984837}
   m_Layer: 0
   m_Name: QuestionPaper
   m_TagString: Untagged
@@ -1406,6 +1407,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.437784, y: 0.601447, z: 0.012721721}
   m_Center: {x: -0.0032317294, y: 0.0014588507, z: -0.004634708}
+--- !u!114 &651984837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 651984832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0780f85b2747714f9879215c9820c6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QPaper
+  Outline: {fileID: 1956248482}
 --- !u!1 &798050760
 GameObject:
   m_ObjectHideFlags: 0
@@ -1418,6 +1432,7 @@ GameObject:
   - component: {fileID: 798050762}
   - component: {fileID: 798050763}
   - component: {fileID: 798050764}
+  - component: {fileID: 798050765}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -1504,6 +1519,19 @@ MonoBehaviour:
   _cameraHolder: {fileID: 278318892}
   tiltSpeed: 5
   freqMult: 1
+--- !u!114 &798050765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 798050760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daf072351dbcdca4a9caad8252fe7295, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  lookingAtObj: 0
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
