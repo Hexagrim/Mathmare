@@ -11,6 +11,7 @@ TagManager:
   - torch
   - book
   - holdModel
+  - Paper
   layers:
   - Default
   - TransparentFX

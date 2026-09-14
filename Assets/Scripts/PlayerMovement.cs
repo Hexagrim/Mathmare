@@ -93,7 +93,11 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift)) isRunning = true;
         if (Input.GetKeyUp(KeyCode.LeftShift)) isRunning = false;
 
-        if (isRunning)
+        Vector3 movement = new Vector3(ch.velocity.x, 0, ch.velocity.z);
+
+
+
+        if (isRunning && movement.magnitude > 0.1f)
         {
             moveMultipler = runMultipler;
             GetComponent<HeadBobController>().freqMult = moveMultipler;
