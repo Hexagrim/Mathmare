@@ -16,7 +16,7 @@ public class PickItemScript : MonoBehaviour
     {
         FindAnyObjectByType<UI_CrosshairScript>().isLookingItem = lookingAtItem && lookItem.GetComponent<Item>() != heldItem;
 
-        //ray check
+        //ray checku
         Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
 
         if (Physics.Raycast(ray, out RaycastHit hit, 3f) && hit.collider.gameObject.GetComponent<Item>() != null)

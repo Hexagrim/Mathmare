@@ -17,7 +17,7 @@ RenderSettings:
   m_Fog: 1
   m_FogColor: {r: 0, g: 0, b: 0.09411765, a: 1}
   m_FogMode: 2
-  m_FogDensity: 0.034
+  m_FogDensity: 0.052
   m_LinearFogStart: 0
   m_LinearFogEnd: 48.8
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
@@ -27,10 +27,10 @@ RenderSettings:
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.32778567, g: 0.3898755, b: 0.5471698, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: 78d164513637a234d9314bfb0770aad0, type: 2}
-  m_HaloStrength: 0.321
+  m_HaloStrength: 0
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
-  m_HaloTexture: {fileID: 0}
+  m_HaloTexture: {fileID: 2800000, guid: de3e16d07702ef146812d01ef06a5920, type: 3}
   m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
   m_DefaultReflectionMode: 0
   m_DefaultReflectionResolution: 128
@@ -439,6 +439,7 @@ GameObject:
   - component: {fileID: 188925432}
   - component: {fileID: 188925434}
   - component: {fileID: 188925433}
+  - component: {fileID: 188925435}
   m_Layer: 0
   m_Name: Spot Light
   m_TagString: Untagged
@@ -454,8 +455,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 188925431}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -501,10 +502,10 @@ Light:
   serializedVersion: 13
   m_Type: 0
   m_Color: {r: 1, g: 0.9402541, b: 0.7877358, a: 1}
-  m_Intensity: 15
+  m_Intensity: 12
   m_Range: 100
-  m_SpotAngle: 57.420773
-  m_InnerSpotAngle: 54.795998
+  m_SpotAngle: 100.25838
+  m_InnerSpotAngle: 39.581455
   m_CookieSize2D: {x: 0.5, y: 0.5}
   m_Shadows:
     m_Type: 0
@@ -555,6 +556,21 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &188925435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 188925431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c8bca95f7c947b4db5fb152a0d693d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: com.cqf.urpvolumetricfog.runtime::VolumetricAdditionalLight
+  anisotropy: 0.39
+  scattering: 0.6
+  radius: 1
 --- !u!1 &278318891
 GameObject:
   m_ObjectHideFlags: 0
@@ -709,11 +725,11 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 1
   m_AntialiasingQuality: 2
   m_StopNaN: 0
-  m_Dithering: 0
+  m_Dithering: 1
   m_ClearDepth: 1
   m_AllowXRRendering: 1
   m_AllowHDROutput: 1
@@ -1049,7 +1065,7 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 0.25
+    m_Strength: 0.3
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
@@ -1123,10 +1139,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_UsePipelineSettings: 1
   m_AdditionalLightsShadowResolutionTier: 2
-  m_CustomShadowLayers: 0
+  m_CustomShadowLayers: 1
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
-  m_SoftShadowQuality: 2
+  m_SoftShadowQuality: 1
   m_RenderingLayersMask:
     serializedVersion: 0
     m_Bits: 1
@@ -1422,7 +1438,7 @@ Transform:
   m_GameObject: {fileID: 558836958}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.43400002}
+  m_LocalPosition: {x: 0, y: 0, z: -1.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -12266,9 +12282,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6847748382739742543}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.10427268, z: -0, w: 0.99454874}
-  m_LocalPosition: {x: -5.8040004, y: 1.217, z: -20.51368}
-  m_LocalScale: {x: 0.075, y: 0.075, z: 0.075}
+  m_LocalRotation: {x: -0, y: 0.018246563, z: -0, w: 0.9998335}
+  m_LocalPosition: {x: -5.7621393, y: 1.217, z: -20.164259}
+  m_LocalScale: {x: 0.07499999, y: 0.075, z: 0.07499999}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -12417,7 +12433,7 @@ SceneRoots:
   - {fileID: 1997531703}
   - {fileID: 541775563}
   - {fileID: 117848054}
-  - {fileID: 7457796867875107237}
   - {fileID: 3745622627342658877}
   - {fileID: 651984833}
   - {fileID: 1011179643}
+  - {fileID: 7457796867875107237}
