@@ -10,9 +10,12 @@ public class PickItemScript : MonoBehaviour
 
     bool lookingAtItem;
     GameObject lookItem;
+
     
     void Update()
     {
+        FindAnyObjectByType<UI_CrosshairScript>().isLookingItem = lookingAtItem && lookItem.GetComponent<Item>() != heldItem;
+
         //ray check
         Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
 
@@ -54,7 +57,7 @@ public class PickItemScript : MonoBehaviour
         // code for outline
         if (lookItem != null)
         {
-            if (lookingAtItem && lookItem!=heldItem)
+            if (lookingAtItem && lookItem.GetComponent<Item>() != heldItem)
             {
                 if (!lookItem.GetComponent<Outline>().enabled) lookItem.GetComponent<Outline>().enabled = true;
             }

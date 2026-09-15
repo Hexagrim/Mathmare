@@ -13,4 +13,5 @@ public class QPaper :Interactables
         base.StopLooking();
         Outline.SetActive(false);
     }
+
 }

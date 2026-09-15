@@ -26,7 +26,7 @@ public abstract class Item : MonoBehaviour
     {
         //same here
         
-        Debug.Log(name + ":" + itemId);
+        //Debug.Log(name + ":" + itemId);
 
     }
     public abstract void Use();
