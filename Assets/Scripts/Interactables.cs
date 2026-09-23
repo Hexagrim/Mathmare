@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Interactables : MonoBehaviour
+public abstract class Interactables : MonoBehaviour
 {
     protected bool Using;
     //fun :>

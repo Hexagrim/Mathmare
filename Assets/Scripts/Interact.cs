@@ -1,3 +1,4 @@
+using UnityEditor.Build;
 using UnityEngine;
 
 
@@ -8,6 +9,20 @@ public class Interact : MonoBehaviour
 
     private Interactables lookObj;
     public bool lookingAtObj;
+    public PlayerMovement player;
+    void LockPlayer()
+    {
+        player.enabled = false;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    void UnlockPlayer()
+    {
+        player.enabled = true;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
 
     void Update()
 
@@ -40,6 +55,14 @@ public class Interact : MonoBehaviour
         else
         {
             StopLooking();
+        }
+        if(lookingAtObj && lookObj.gameObject != null)
+        {
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                lookObj.Use();
+                LockPlayer();
+            }
         }
     }
 
