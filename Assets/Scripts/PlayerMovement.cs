@@ -1,4 +1,5 @@
 using Unity.Cinemachine;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -95,7 +96,7 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-        if (isRunning && movement.magnitude > 0.1f)
+        if (isRunning && Input.GetAxisRaw("Vertical") == 1)
         {
             moveMultipler = runMultipler;
             GetComponent<HeadBobController>().freqMult = moveMultipler;
