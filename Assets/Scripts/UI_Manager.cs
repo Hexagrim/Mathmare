@@ -2,15 +2,13 @@ using UnityEngine;
 
 public class UI_Manager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public GameStateManager gameManager;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    //list of UI stuff
+
+    public GameObject QpaperUI;
+
+    //----------------
+
+    
 }

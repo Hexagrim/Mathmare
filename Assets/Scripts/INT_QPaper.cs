@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class QPaper :Interactables
+public class INT_QPaper :Interactables
 {
     public GameObject Outline;
     public GameObject QUI;

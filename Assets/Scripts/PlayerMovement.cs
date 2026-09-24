@@ -1,11 +1,9 @@
 using Unity.Cinemachine;
-using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
+    
     float moveInput;
     float turnInput;
     private CharacterController ch;
