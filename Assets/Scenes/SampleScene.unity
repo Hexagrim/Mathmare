@@ -1166,6 +1166,41 @@ Transform:
   - {fileID: 1135664064}
   m_Father: {fileID: 1017339144}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &282049784
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 282049785}
+  m_Layer: 5
+  m_Name: Pivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &282049785
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 282049784}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 782557872}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 301}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -2358,7 +2393,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::QPaper
   Outline: {fileID: 1956248482}
-  QUI: {fileID: 782557868}
+  uiManager: {fileID: 0}
 --- !u!1 &693210097
 GameObject:
   m_ObjectHideFlags: 0
@@ -2397,7 +2432,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.3536, y: -287.01}
+  m_AnchoredPosition: {x: -77.64642, y: -287.01}
   m_SizeDelta: {x: 77.593, y: 77.965}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &693210099
@@ -2444,14 +2479,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1312903944}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1131659991}
+        m_TargetAssemblyTypeName: QPaperInstance, Assembly-CSharp
+        m_MethodName: SubmitAnswer
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 4
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -2534,7 +2569,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &782557869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2613,6 +2648,7 @@ RectTransform:
   m_Children:
   - {fileID: 1164508578}
   - {fileID: 1131659989}
+  - {fileID: 282049785}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2639,7 +2675,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &798050761
 Transform:
   m_ObjectHideFlags: 0
@@ -2732,7 +2768,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   lookingAtObj: 0
-  player: {fileID: 798050763}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -3237,7 +3272,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 90.766884, y: 78.622055}
+  m_AnchoredPosition: {x: 90.766884, y: -11.802849}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1089148893
@@ -3274,7 +3309,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -19.176098}
+  m_AnchoredPosition: {x: -34.631767, y: -30.860214}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1104394660
@@ -3426,6 +3461,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1131659989}
   - component: {fileID: 1131659990}
+  - component: {fileID: 1131659991}
   m_Layer: 5
   m_Name: Qpaper1
   m_TagString: Untagged
@@ -3475,6 +3511,28 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1131659991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131659988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af24a939fe32ae1459901d33893c873c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  Data: {fileID: 11400000, guid: 020d8dcc8c9f4be4e934dcaf77cf4e91, type: 2}
+  answered: 0
+  correct: 0
+  Question: {fileID: 160121630}
+  Answers:
+  - {fileID: 197636182}
+  - {fileID: 181418002}
+  - {fileID: 1698618790}
+  - {fileID: 1248751823}
+  Figure: {fileID: 0}
 --- !u!1 &1135664063
 GameObject:
   m_ObjectHideFlags: 0
@@ -4967,7 +5025,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -370.341, y: -287.0071}
+  m_AnchoredPosition: {x: -450.34103, y: -287.0071}
   m_SizeDelta: {x: 81.9908, y: 77.962}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1700029254
@@ -5014,14 +5072,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1312903944}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1131659991}
+        m_TargetAssemblyTypeName: QPaperInstance, Assembly-CSharp
+        m_MethodName: SubmitAnswer
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -14268,6 +14326,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21b115237091da34f9726a4bbcee3a0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  gameManager: {fileID: 1965681881}
+  QpaperUI: {fileID: 782557868}
 --- !u!114 &1965681881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14280,6 +14340,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be18b5eb3d68e8640b8b3d7ed0aea3a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  playerMovement: {fileID: 798050763}
 --- !u!4 &1965681882
 Transform:
   m_ObjectHideFlags: 0
@@ -14683,7 +14744,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -372, y: -118.95889}
+  m_AnchoredPosition: {x: -452, y: -118.95889}
   m_SizeDelta: {x: 69.8231, y: 74.6437}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2066175461
@@ -14730,14 +14791,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1312903944}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1131659991}
+        m_TargetAssemblyTypeName: QPaperInstance, Assembly-CSharp
+        m_MethodName: SubmitAnswer
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -15176,6 +15237,50 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &2077368843
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2077368845}
+  - component: {fileID: 2077368844}
+  m_Layer: 0
+  m_Name: QPaperManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2077368844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2077368843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 001b5773783e23b43bfb8e9620c1a333, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+--- !u!4 &2077368845
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2077368843}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 546.3286, y: 291.86826, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2098505475
 GameObject:
   m_ObjectHideFlags: 0
@@ -15245,7 +15350,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.3542, y: -118.96}
+  m_AnchoredPosition: {x: -77.64582, y: -118.96}
   m_SizeDelta: {x: 77.5938, y: 74.647}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2115609355
@@ -15292,14 +15397,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1312903944}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1131659991}
+        m_TargetAssemblyTypeName: QPaperInstance, Assembly-CSharp
+        m_MethodName: SubmitAnswer
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -15875,3 +15980,4 @@ SceneRoots:
   - {fileID: 2130643403}
   - {fileID: 782557872}
   - {fileID: 1965681882}
+  - {fileID: 2077368845}

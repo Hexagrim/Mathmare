@@ -3,7 +3,14 @@ using UnityEngine;
 public class INT_QPaper :Interactables
 {
     public GameObject Outline;
-    public GameObject QUI;
+    public UI_Manager uiManager;
+
+    protected override void Start()
+    {
+        base.Start();
+        uiManager = FindAnyObjectByType<UI_Manager>();
+    }
+
     public override void Look()
     {
         base.Look();
@@ -17,12 +24,14 @@ public class INT_QPaper :Interactables
     public override void Use()
     {
         base.Use();
-        QUI.SetActive(true);
+        uiManager.QpaperUI.SetActive(true);
+        FindAnyObjectByType<GameStateManager>().SetState(GameStateManager.GameState.SolvingPaper);
     }
     public override void StopUsing()
     {
         base.StopUsing();
-        QUI.SetActive(false);
+        uiManager.QpaperUI.SetActive(false);
+        FindAnyObjectByType<GameStateManager>().SetState(GameStateManager.GameState.Normal);
     }
 
 }
