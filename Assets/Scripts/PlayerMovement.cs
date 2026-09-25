@@ -1,6 +1,7 @@
 using Unity.Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
+using static Unity.VisualScripting.Round<TInput, TOutput>;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -27,6 +28,9 @@ public class PlayerMovement : MonoBehaviour
     float baseCamFov;
     bool isRunning = false;
 
+    public float maxRun;
+    private float runRechargeTimer;
+    public float run;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -103,14 +107,25 @@ public class PlayerMovement : MonoBehaviour
             if (virtualCamera.Lens.FieldOfView >= baseCamFov * 1.1f) virtualCamera.Lens.FieldOfView = baseCamFov * 1.1f;
             else virtualCamera.Lens.FieldOfView += 70 * Time.deltaTime;
 
+            if (run > 0)
+            {
+                run -= Time.deltaTime;
+                runRechargeTimer = 5f;
+            }
         }
         else
         {
+
             moveMultipler = 1;
             GetComponent<HeadBobController>().freqMult = 1;
             if (virtualCamera.Lens.FieldOfView <= baseCamFov) virtualCamera.Lens.FieldOfView = baseCamFov;
             else virtualCamera.Lens.FieldOfView -= 70 * Time.deltaTime;
+
+            if(runRechargeTimer > 0) runRechargeTimer -= Time.deltaTime;
+            else if(run < maxRun) run += 5 * Time.deltaTime;
+
         }
+        run = Mathf.Clamp(run, 0, maxRun);
     }
 
 }

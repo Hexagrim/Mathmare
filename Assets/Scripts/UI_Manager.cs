@@ -14,7 +14,7 @@ public class UI_Manager : MonoBehaviour
     public void QpaperUI_Off()
     {
         FindAnyObjectByType<QPaperManager>().GetComponent<Animator>().SetTrigger("close");
-        Invoke(nameof(disableQUI), 0.5f);
+        Invoke(nameof(disableQUI), 0.43f);
 
     }
 
