@@ -38,12 +38,15 @@ public class INT_QPaper :Interactables
         });
         uiManager.QpaperUI.SetActive(true);
         FindAnyObjectByType<GameStateManager>().SetState(GameStateManager.GameState.SolvingPaper);
+        GetComponent<Collider>().enabled = false;
+        transform.GetChild(0).gameObject.SetActive(false);
     }
     public override void StopUsing()
     {
         base.StopUsing();
         uiManager.QpaperUI.SetActive(false);
         FindAnyObjectByType<GameStateManager>().SetState(GameStateManager.GameState.Normal);
+        Destroy(gameObject);
     }
 
 }

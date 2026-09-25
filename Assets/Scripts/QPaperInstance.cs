@@ -1,6 +1,8 @@
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.Build.Content;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class QPaperInstance : MonoBehaviour
 {
@@ -12,9 +14,9 @@ public class QPaperInstance : MonoBehaviour
 
     public TMP_Text Question;
     public TMP_Text[] Answers;
-    public Sprite Figure;
-    
+    public Image Figure;
 
+    public bool lastPaper;
     private void Awake()
     {
         Anim = GetComponent<Animator>();
@@ -24,7 +26,7 @@ public class QPaperInstance : MonoBehaviour
         Question.text = Data.Question;
         for (int i = 0; i < Answers.Length; i++)
             Answers[i].text = Data.Answers[i];
-        Figure = Data.Figure;
+        Figure.sprite = Data.Figure;
 
     }
 
@@ -36,6 +38,12 @@ public class QPaperInstance : MonoBehaviour
 
         answered = true;
         correct = answer == Data.CorrectAnswer;
+
+        if (lastPaper)
+        {
+            FindAnyObjectByType<UI_Manager>().QpaperUI_Off();
+            FindAnyObjectByType<GameStateManager>().SetState(GameStateManager.GameState.Normal);
+        }
     }
 
 }

@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 28968e3c40411fd48a72024c7c6669fb, type: 3}
-  m_Name: T 1
+  m_Name: Easy 2
   m_EditorClassIdentifier: Assembly-CSharp::QPaperData
   Type: 0
   Difficulty: 0
-  Question: Did abhisek get laddu from chamero??
-  Figure: {fileID: 0}
+  Question: What is the value of y, if y = 1+4?
+  Figure: {fileID: 984860462, guid: 2c6be07cbab99e64fb6472bcf3ae8305, type: 3}
   Answers:
-  - yes
-  - no
-  - black with hair
-  - sirs laddu
-  CorrectAnswer: 2
+  - 5
+  - 8
+  - 6
+  - 7
+  CorrectAnswer: 1
