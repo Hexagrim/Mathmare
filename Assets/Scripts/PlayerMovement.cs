@@ -1,7 +1,8 @@
 using Unity.Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
-using static Unity.VisualScripting.Round<TInput, TOutput>;
+using UnityEngine.UI;
+
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -32,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
     private float runRechargeTimer;
     public float run;
 
+    public Image sprintBar;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -100,18 +102,16 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-        if (isRunning && Input.GetAxisRaw("Vertical") == 1)
+        if (isRunning && Input.GetAxisRaw("Vertical") == 1 && run > 0)
         {
             moveMultipler = runMultipler;
             GetComponent<HeadBobController>().freqMult = moveMultipler;
             if (virtualCamera.Lens.FieldOfView >= baseCamFov * 1.1f) virtualCamera.Lens.FieldOfView = baseCamFov * 1.1f;
             else virtualCamera.Lens.FieldOfView += 70 * Time.deltaTime;
 
-            if (run > 0)
-            {
-                run -= Time.deltaTime;
-                runRechargeTimer = 5f;
-            }
+            run -= Time.deltaTime * 10;
+            runRechargeTimer = 4f;
+
         }
         else
         {
@@ -122,10 +122,12 @@ public class PlayerMovement : MonoBehaviour
             else virtualCamera.Lens.FieldOfView -= 70 * Time.deltaTime;
 
             if(runRechargeTimer > 0) runRechargeTimer -= Time.deltaTime;
-            else if(run < maxRun) run += 5 * Time.deltaTime;
+            else if(run < maxRun) run += 4 * Time.deltaTime;
 
         }
         run = Mathf.Clamp(run, 0, maxRun);
+        sprintBar.fillAmount = run / maxRun;
+        sprintBar.color = new Color(sprintBar.color.r,sprintBar.color.g,sprintBar.color.b,(run/maxRun));
     }
 
 }

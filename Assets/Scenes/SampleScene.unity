@@ -5920,6 +5920,9 @@ MonoBehaviour:
   gravity: 15
   runMultipler: 1.5
   virtualCamera: {fileID: 1135664065}
+  maxRun: 35
+  run: 35
+  sprintBar: {fileID: 742260883}
 --- !u!114 &798050764
 MonoBehaviour:
   m_ObjectHideFlags: 0
