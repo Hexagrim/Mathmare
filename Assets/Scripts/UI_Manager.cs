@@ -7,7 +7,7 @@ public class UI_Manager : MonoBehaviour
     //list of UI stuff
 
     public GameObject QpaperUI;
-    
+    public GameObject UseLMB;
 
     //----------------    
 

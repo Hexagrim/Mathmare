@@ -11,9 +11,27 @@ public class PickItemScript : MonoBehaviour
     bool lookingAtItem;
     GameObject lookItem;
 
+    public UI_Manager uiManager;
     
     void Update()
     {
+        if (heldItem != null)
+        {
+            if (heldItem.itemId == 1)
+            {
+                uiManager.UseLMB.SetActive(true);
+            }
+            else
+            {
+                uiManager.UseLMB.SetActive(false);
+            }
+        }
+        else
+        {
+            uiManager.UseLMB.SetActive(false);
+        }
+
+
         FindAnyObjectByType<UI_CrosshairScript>().isLookingItem = lookingAtItem && lookItem.GetComponent<Item>() != heldItem;
 
         //ray checku
@@ -72,6 +90,7 @@ public class PickItemScript : MonoBehaviour
             heldItem.Use();
         }
 
+        
     }
 
     void PickItem(Item pickItem)
