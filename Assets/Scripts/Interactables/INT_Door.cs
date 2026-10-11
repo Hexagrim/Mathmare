@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class INT_Door : Interactables
 {
@@ -8,16 +9,19 @@ public class INT_Door : Interactables
     PlayerMovement player;
 
     public bool canUse;
+
     protected override void Start()
     {
         base.Start();
         player = FindAnyObjectByType<PlayerMovement>();
     }
+
     public override void Look()
     {
         base.Look();
         Outline.enabled = true;
     }
+
     public override void StopLooking()
     {
         base.StopLooking();
@@ -27,6 +31,8 @@ public class INT_Door : Interactables
     public override void Use()
     {
         base.Use();
+        if (!canUse) return;
+        StartCoroutine(UseCooldown());
         if (Anim.GetCurrentAnimatorStateInfo(0).IsName("DoorClose"))
         {
             Vector3 direction = (player.transform.position - transform.position).normalized;
@@ -49,6 +55,8 @@ public class INT_Door : Interactables
     IEnumerator UseCooldown()
     {
         canUse = false;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
+        canUse = true;
     }
+
 }
