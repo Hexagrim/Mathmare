@@ -3,6 +3,7 @@ using UnityEngine;
 public abstract class Interactables : MonoBehaviour
 {
     protected bool Using;
+
     //fun :>
     protected virtual void Start()
     {
