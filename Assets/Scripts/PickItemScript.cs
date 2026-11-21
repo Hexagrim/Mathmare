@@ -6,7 +6,7 @@ public class PickItemScript : MonoBehaviour
     public Transform[] hands;
     public Item heldItem;
     Transform heldItemHand;
-    public float angleSpeed;
+    //public float angleSpeed;
 
     bool lookingAtItem;
     GameObject lookItem;
@@ -117,11 +117,12 @@ public class PickItemScript : MonoBehaviour
         heldItem = null;
     }
 
-    void MoveItem()
-    {
-        heldItem.transform.rotation = Quaternion.Slerp(heldItem.transform.rotation, heldItemHand.rotation, angleSpeed * Time.deltaTime);
+    //void MoveItem()
+    //{
+    //    heldItem.transform.rotation = Quaternion.Slerp(heldItem.transform.rotation, heldItemHand.rotation, angleSpeed * Time.deltaTime);
+    //
+    //}
 
-    }
     //private void LateUpdate()
     //{
     //    if (heldItem != null && heldItemHand != null)
