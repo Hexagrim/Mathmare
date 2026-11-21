@@ -4,7 +4,7 @@ using UnityEngine.Rendering;
 
 public class INT_Door : Interactables
 {
-    public Outline Outline;
+    Outline Outline;
     public Animator Anim;
     PlayerMovement player;
 
@@ -13,6 +13,7 @@ public class INT_Door : Interactables
     protected override void Start()
     {
         base.Start();
+        Outline = GetComponent<Outline>();
         player = FindAnyObjectByType<PlayerMovement>();
     }
 

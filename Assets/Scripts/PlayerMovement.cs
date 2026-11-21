@@ -73,8 +73,8 @@ public class PlayerMovement : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
-        verticalRotation -= mouseY;
-        verticalRotation = Mathf.Clamp(verticalRotation, -90f, 80f);
+        verticalRotation -= mouseY * sens;
+        verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f);
 
         transform.Rotate(mouseX * sens * Vector3.up);
         camera.transform.localRotation = Quaternion.Euler(verticalRotation, camera.transform.localRotation.y, camera.transform.localRotation.z);
